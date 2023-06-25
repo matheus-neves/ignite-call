@@ -16,12 +16,12 @@ export const Hero = styled('div', {
   '@media(max-width: 600px)': {
     margin: '0 auto',
 
-    [`${Heading}`]: {
+    [`> ${Heading}`]: {
       fontSize: '$6xl',
     },
   },
 
-  [`${Text}`]: {
+  [`> ${Text}`]: {
     marginTop: '$2',
     color: '$gray200',
   },
