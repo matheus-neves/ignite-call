@@ -11,6 +11,8 @@ import { useEffect } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 
+import { createUser } from './utils'
+
 const registerFormSchema = z.object({
   username: z
     .string()
@@ -24,7 +26,7 @@ const registerFormSchema = z.object({
     .min(3, { message: 'O nome precisa ter pelo menos 3 letras.' }),
 })
 
-type RegisterFormData = z.infer<typeof registerFormSchema>
+export type RegisterFormData = z.infer<typeof registerFormSchema>
 
 export default function Register() {
   const {
@@ -44,7 +46,11 @@ export default function Register() {
     if (username) setValue('username', username)
   }, [username, setValue])
 
-  async function handleRegister(data: RegisterFormData) {}
+  async function handleRegister(data: RegisterFormData) {
+    const response = await createUser(data)
+
+    console.log('response: ', response)
+  }
 
   return (
     <Container>
