@@ -19,6 +19,10 @@ export async function fetchWrapper<T = unknown>({
     ...options,
   })
 
+  if (!data.ok) {
+    throw data.statusText
+  }
+
   const result = await data.json()
 
   return result as T
