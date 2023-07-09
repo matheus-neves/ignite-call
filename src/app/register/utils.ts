@@ -11,17 +11,12 @@ interface CreateUserResponse {
 }
 
 export async function createUser(data: RegisterFormData) {
-  try {
-    const response = await fetchWrapper<CreateUserResponse>({
-      url: 'users',
-      options: {
-        method: 'POST',
-        body: JSON.stringify(data),
-      },
-    })
-
-    return response
-  } catch (err) {
-    console.log(err)
-  }
+  const response = await fetchWrapper<CreateUserResponse>({
+    url: 'users',
+    options: {
+      method: 'POST',
+      body: JSON.stringify(data),
+    },
+  })
+  return response
 }
