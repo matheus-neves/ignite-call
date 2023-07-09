@@ -10,7 +10,7 @@ interface FetchWrapperParams {
 export async function fetchWrapper<T = unknown>({
   url,
   options,
-}: FetchWrapperParams) {
+}: FetchWrapperParams): Promise<T | Error> {
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${url}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ export async function fetchWrapper<T = unknown>({
   })
 
   if (!data.ok) {
-    throw data.statusText
+    throw Error(data.statusText)
   }
 
   const result = await data.json()
