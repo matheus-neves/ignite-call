@@ -1,6 +1,7 @@
 import { StitchesRegistry } from '@/styles/global'
 import { Roboto } from 'next/font/google'
 import { ReactNode } from 'react'
+import { NextAuthProvider } from './providers'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] })
 
@@ -13,7 +14,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <StitchesRegistry>{children}</StitchesRegistry>
+        <NextAuthProvider>
+          <StitchesRegistry>{children}</StitchesRegistry>
+        </NextAuthProvider>
       </body>
     </html>
   )
