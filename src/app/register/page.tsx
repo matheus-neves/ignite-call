@@ -3,14 +3,14 @@
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
 
-import { Container, Form, FormError, Header } from './styles'
+import { Form, FormError } from './styles'
+import { Container, Header } from '@/styles/common'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 
-import { useSearchParams } from 'next/navigation'
-
+import { useSearchParams, useRouter } from 'next/navigation'
 import { createUser } from './utils'
 
 const registerFormSchema = z.object({
@@ -39,6 +39,7 @@ export default function Register() {
   })
 
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const username = searchParams.get('username')
 
@@ -47,9 +48,15 @@ export default function Register() {
   }, [username, setValue])
 
   async function handleRegister(data: RegisterFormData) {
-    const response = await createUser(data)
-
-    console.log('response: ', response)
+    try {
+      await createUser(data)
+      router.push('/connect-calendar')
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+      console.error(error)
+    }
   }
 
   return (
