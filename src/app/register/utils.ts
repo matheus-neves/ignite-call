@@ -1,5 +1,3 @@
-'use server'
-
 import { fetchWrapper } from '@/utils/fetchWrapper'
 import { RegisterFormData } from './page'
 
