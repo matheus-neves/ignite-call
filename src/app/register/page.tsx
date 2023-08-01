@@ -50,7 +50,7 @@ export default function Register() {
   async function handleRegister(data: RegisterFormData) {
     try {
       await createUser(data)
-      router.push('/connect-calendar')
+      router.push('/register/connect-calendar')
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message)
