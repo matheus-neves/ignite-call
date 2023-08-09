@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   Checkbox,
@@ -23,6 +25,7 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { getWeekDays } from '@/utils/get-week-day'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { convertTimeStringToMinutes } from '@/utils/convert-time-string-to-minutes'
+import { fetchWrapper } from '@/utils/fetchWrapper'
 
 const timeIntervalsFormSchema = z.object({
   intervals: z
@@ -97,9 +100,15 @@ export default function TimeIntervals() {
   const intervals = watch('intervals')
 
   async function handleSetTimeIntervals(data: unknown) {
-    const formData = data as TimeIntervalsFormOutput
+    const { intervals } = data as TimeIntervalsFormOutput
 
-    console.log(formData)
+    await fetchWrapper({
+      url: '/users/time-intervals',
+      options: {
+        method: 'POST',
+        body: JSON.stringify(intervals),
+      },
+    })
   }
 
   return (
