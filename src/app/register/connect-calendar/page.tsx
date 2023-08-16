@@ -5,10 +5,11 @@ import { ArrowRight, Check } from 'phosphor-react'
 import { Container, Header } from '@/styles/common'
 import { AuthError, ConnectBox, ConnectItem } from './styles'
 import { signIn, useSession } from 'next-auth/react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function ConnectCalendar() {
   const session = useSession()
+  const router = useRouter()
   const searchParams = useSearchParams()
 
   const hasAuthError = !!searchParams.get('error')
@@ -16,6 +17,10 @@ export default function ConnectCalendar() {
 
   async function handleConnectCalendar() {
     await signIn('google')
+  }
+
+  async function handleNavigateToNextStep() {
+    router.push('/register/time-intervals')
   }
 
   return (
@@ -55,7 +60,11 @@ export default function ConnectCalendar() {
           </AuthError>
         )}
 
-        <Button type="submit" disabled={!isSignedIn}>
+        <Button
+          onClick={handleNavigateToNextStep}
+          type="submit"
+          disabled={!isSignedIn}
+        >
           Próximo passo
           <ArrowRight />
         </Button>
