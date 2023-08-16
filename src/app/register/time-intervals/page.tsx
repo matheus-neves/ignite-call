@@ -26,6 +26,7 @@ import { getWeekDays } from '@/utils/get-week-day'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { convertTimeStringToMinutes } from '@/utils/convert-time-string-to-minutes'
 import { fetchWrapper } from '@/utils/fetchWrapper'
+import { useRouter } from 'next/navigation'
 
 const timeIntervalsFormSchema = z.object({
   intervals: z
@@ -90,6 +91,8 @@ export default function TimeIntervals() {
     },
   })
 
+  const router = useRouter()
+
   const weekDays = getWeekDays()
 
   const { fields } = useFieldArray({
@@ -109,6 +112,8 @@ export default function TimeIntervals() {
         body: JSON.stringify(intervals),
       },
     })
+
+    router.push('/register/update-profile')
   }
 
   return (
