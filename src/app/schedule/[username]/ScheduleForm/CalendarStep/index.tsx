@@ -6,10 +6,11 @@ import {
   TimePickerItem,
   TimePickerList,
 } from './styles'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import dayjs from 'dayjs'
 import { useParams } from 'next/navigation'
 import { fetchWrapper } from '@/utils/fetchWrapper'
+import { useQuery } from '@tanstack/react-query'
 
 interface Availability {
   possibleTimes: number[]
@@ -18,7 +19,7 @@ interface Availability {
 
 export function CalendarStep() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [availability, setAvailability] = useState<Availability | null>(null)
+  // const [availability, setAvailability] = useState<Availability | null>(null)
   const { username } = useParams()
 
   const isDateSelected = !!selectedDate
@@ -28,25 +29,22 @@ export function CalendarStep() {
     ? dayjs(selectedDate).format('DD[ de ]MMMM')
     : null
 
-  useEffect(() => {
-    if (!selectedDate) {
-      return
-    }
+  const selectedDateWithoutTime = selectedDate ? dayjs(selectedDate).format('YYYY-MM-DD') : null
 
-    ;(async () => {
-      const formattedSelectedDate = dayjs(selectedDate).format('YYYY-MM-DD')
-      const response = await fetchWrapper<Availability>({
-        url: `/users/${username}?date=${formattedSelectedDate}`,
-        options: {
-          method: 'GET',
-        },
-      })
+  const { data: availability} = useQuery<Availability | undefined>(['availability', selectedDateWithoutTime], async () => {
+    const response = await fetchWrapper<Availability>({
+      url: `/users/${username}?date=${selectedDateWithoutTime}`,
+      options: {
+        method: 'GET',
+      },
+    })
 
-      if (response instanceof Error) return false
+    if (response instanceof Error) return undefined
 
-      setAvailability(response)
-    })()
-  }, [selectedDate, username])
+    return response
+  }, {
+    enabled: !!selectedDate
+  })
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
