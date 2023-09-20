@@ -53,8 +53,6 @@ export async function GET(
 
   const { time_start_in_minutes, time_end_in_minutes } = userAvailability
 
-  console.log('userAvailability', userAvailability)
-
   const startHour = time_start_in_minutes / 60
   const endHour = time_end_in_minutes / 60
 
