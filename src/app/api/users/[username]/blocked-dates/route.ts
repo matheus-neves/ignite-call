@@ -48,8 +48,6 @@ export async function GET(
     )
   })
 
-  const date = `${year}-${String(month).padStart(2, '0')}`
-
   const blockedDatesRaw: Array<{ date: number }> = await prisma.$queryRaw`
     SELECT
       EXTRACT(DAY FROM S.DATE) AS date,

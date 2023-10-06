@@ -69,6 +69,7 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
   })
 
   const calendarWeeks = useMemo(() => {
+    console.log('blockedDates: ', blockedDates)
 
     if(!blockedDates) return []
 
@@ -120,7 +121,6 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
 
     const calendarWeeks = calendarDays.reduce<CalendarWeeks>(
       (weeks, _, i, original) => {
-        console.log('i: ', i)
         const isNewWeek = i % 7 === 0
 
         if (isNewWeek) {

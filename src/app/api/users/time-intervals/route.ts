@@ -24,8 +24,6 @@ export async function POST(request: Request) {
 
   const data = await request.json()
 
-  console.log(typeof data)
-
   const intervals = timeIntervalsBodySchema.parse(data)
 
   await Promise.all(
