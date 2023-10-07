@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import dayjs from 'dayjs'
+import { useSearchParams, useParams } from 'next/navigation'
+import { fetchWrapper } from '@/utils/fetchWrapper'
 
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: 'O nome precisa no mínimo 3 caracteres' }),
@@ -28,8 +30,24 @@ export function ConfirmStep({schedulingDate, onCancelConfirmation}: ConfirmStepP
     resolver: zodResolver(confirmFormSchema),
   })
 
-  function handleConfirmScheduling(data: ConfirmFormData) {
-    console.log(data)
+  const params = useParams()
+
+  const { username } = params
+
+  async function handleConfirmScheduling(data: ConfirmFormData) {
+    const { name, email, observations } = data
+
+    await fetchWrapper({
+      url: `/users/${username}/schedule`,
+      options: {
+        method: 'POST',
+        body: JSON.stringify({
+          name, email, observations, date: schedulingDate
+        }),
+      },
+    })
+
+    onCancelConfirmation()
   }
 
   const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY')
