@@ -11,7 +11,7 @@ interface NextAuthProviderProps {
 export const NextAuthProvider = ({ children }: NextAuthProviderProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-       <SessionProvider>{children}</SessionProvider>
+      <SessionProvider>{children}</SessionProvider>
     </QueryClientProvider>
   )
 }
